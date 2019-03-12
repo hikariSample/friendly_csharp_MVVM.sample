@@ -1,4 +1,6 @@
-﻿namespace MVVM.Sample.WPF.Models
+﻿using MVVM.Sample.WPF.Views;
+
+namespace MVVM.Sample.WPF.Models
 {
     public class MainWindowModel : NotificationObject
     {
@@ -16,6 +18,11 @@
         public void CopyCommand(object obj)
         {
             this.Txt = Txt + Txt;
+        }
+        public void OpenCommand(object obj)
+        {
+            Window1 window1 = new Window1();
+            window1.ShowDialog();
         }
     }
 }

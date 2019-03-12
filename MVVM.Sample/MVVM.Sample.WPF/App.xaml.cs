@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -32,6 +27,7 @@ namespace MVVM.Sample.WPF
             e.Handled = true;
             //throw e.Exception;
         }
+
         /// <summary>
         /// 非UI线程抛出全局异常事件处理
         /// </summary>
