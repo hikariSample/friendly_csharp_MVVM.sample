@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace MVVM.Sample.WPF.Models
+namespace MVVM.Sample.WPF.ViewModels
 {
     public class NotificationObject : INotifyPropertyChanged
     {

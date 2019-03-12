@@ -12,7 +12,7 @@
         <models:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="70,70,0,0" TextWrapping="Wrap" Text="{Binding Model.Txt}" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="70,70,0,0" TextWrapping="Wrap" Text="{Binding Txt}" VerticalAlignment="Top" Width="120"/>
         <Button Command="{Binding CopyCommand}" CommandParameter="{Binding ElementName=textBox1,Path=Text}" Content="Button" HorizontalAlignment="Left" Margin="230,70,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Command="{Binding OpenCommand}" Content="Button" HorizontalAlignment="Left" Margin="340,70,0,0" VerticalAlignment="Top" Width="75"/>
     </Grid>

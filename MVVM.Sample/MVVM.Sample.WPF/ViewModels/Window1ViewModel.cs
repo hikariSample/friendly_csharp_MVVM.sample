@@ -1,9 +1,6 @@
-﻿using MVVM.Sample.WPF.Models;
-
-namespace MVVM.Sample.WPF.ViewModels
+﻿namespace MVVM.Sample.WPF.ViewModels
 {
-    public class Window1ViewModel
+    public class Window1ViewModel : NotificationObject
     {
-        public Window1Model Model { get; set; }
     }
 }

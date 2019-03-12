@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Threading;
+using GalaSoft.MvvmLight.Threading;
 
 namespace MVVM.Sample.WPF
 {
@@ -14,7 +15,7 @@ namespace MVVM.Sample.WPF
             Current.DispatcherUnhandledException += App_OnDispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-
+            DispatcherHelper.Initialize();
         }
         /// <summary>
         /// UI线程抛出全局异常事件处理
