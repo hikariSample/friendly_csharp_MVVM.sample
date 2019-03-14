@@ -2,25 +2,21 @@
 using MVVM.Sample.WPF.Views;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Threading;
+using MVVM.Sample.WPF.Models;
 
 namespace MVVM.Sample.WPF.ViewModels
 {
-    public class MainWindowViewModel : NotificationObject
+    public class MainWindowViewModel
     {
-        private string _txt;
-        public string Txt
-        {
-            get => _txt;
-            set { _txt = value; NotifyPropertyChanged("Txt"); }
-        }
-
+        
+        public Models.MainWindowModel Model { get; set; }
         public ICommand CopyCommand
         {
             get
             {
                 return new DelegateCommand<object>(delegate (object obj)
                 {
-                    this.Txt = Txt + Txt;
+                    this.Model.Txt = this.Model.Txt + this.Model.Txt;
                 });
             }
         }
@@ -48,7 +44,7 @@ namespace MVVM.Sample.WPF.ViewModels
                                     () =>
                                     {
                                         // Dispatch back to the main thread
-                                        Txt = string.Format("Loop # {0}", loopIndex++);
+                                        this.Model.Txt = string.Format("Loop # {0}", loopIndex++);
                                     });
 
                                 // Sleep for a while
@@ -63,7 +59,7 @@ namespace MVVM.Sample.WPF.ViewModels
         }
         public MainWindowViewModel()
         {
-
+            this.Model = new MainWindowModel();
         }
     }
 }

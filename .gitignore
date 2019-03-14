@@ -6,3 +6,4 @@
 /MVVM.Sample/MVVM.Sample.WPF/bin
 /MVVM.Sample/MVVM.Sample.WPF/obj
 /MVVM.Sample/packages
+*.user

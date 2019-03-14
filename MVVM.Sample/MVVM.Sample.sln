@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28705.295
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVVM.Sample.WPF", "WpfApp1\MVVM.Sample.WPF.csproj", "{016A2365-A586-4070-930D-F67390D7F422}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVVM.Sample.WPF", "MVVM.Sample.WPF\MVVM.Sample.WPF.csproj", "{016A2365-A586-4070-930D-F67390D7F422}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
