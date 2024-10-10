@@ -1,4 +1,6 @@
-﻿namespace MVVM.Sample.WPF.Models
+﻿using Hikari.Mvvm;
+
+namespace MVVM.Sample.WPF.Models
 {
     public class MainWindowModel : NotificationObject
     {

@@ -2,6 +2,7 @@
 using MVVM.Sample.WPF.Views;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Threading;
+using Hikari.Mvvm.Command;
 using MVVM.Sample.WPF.Models;
 
 namespace MVVM.Sample.WPF.ViewModels
