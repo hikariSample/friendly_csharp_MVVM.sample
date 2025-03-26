@@ -1,9 +1,7 @@
-﻿using System.Threading;
-using MVVM.Sample.WPF.Views;
-using System.Windows.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using GalaSoft.MvvmLight.Threading;
-using Hikari.Mvvm.Command;
 using MVVM.Sample.WPF.Models;
+using System.Windows.Input;
 
 namespace MVVM.Sample.WPF.ViewModels
 {
@@ -15,7 +13,7 @@ namespace MVVM.Sample.WPF.ViewModels
         {
             get
             {
-                return new DelegateCommand<object>(delegate (object obj)
+                return new RelayCommand<object?>(delegate (object? obj)
                 {
                     this.Model.Txt = this.Model.Txt + this.Model.Txt;
                 });
@@ -29,7 +27,7 @@ namespace MVVM.Sample.WPF.ViewModels
         {
             get
             {
-                return new DelegateCommand<object>(delegate (object obj)
+                return new AsyncRelayCommand<object?>(async delegate (object? obj)
                 {
                     int loopIndex = 0;
                     ThreadPool.QueueUserWorkItem(
