@@ -1,24 +1,113 @@
-﻿<Window x:Class="MVVM.Sample.WPF.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MVVM.Sample.WPF"
-        xmlns:models="clr-namespace:MVVM.Sample.WPF.ViewModels"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Window.DataContext>
-        <models:MainWindowViewModel/>
-    </Window.DataContext>
+﻿<Window
+    x:Class="MVVM.Sample.WPF.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:MVVM.Sample.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:MVVM.Sample.WPF.ViewModels"
+    Title="HumaBlot 72FA"
+    Width="900"
+    Height="700"
+    WindowStartupLocation="CenterScreen"
+    models:ViewModelLocator.AutoWireViewModel="True"
+    d:DataContext="{d:DesignInstance Type=models:MainWindowViewModel}"
+    Background="#F5F5F5"
+    mc:Ignorable="d">
+    <!--<Window.DataContext>
+        <Binding Path="[MainWindowViewModel]" Source="{StaticResource Locator}" />
+    </Window.DataContext>-->
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--  顶部Logo和标题  -->
+        <StackPanel Grid.Row="0" Margin="40,40,40,20">
+            <Image
+                Height="40"
+                Margin="0,0,0,20"
+                HorizontalAlignment="Left"
+                Source="/Resources/logo.png" />
+            <TextBlock
+                Margin="0,0,0,5"
+                FontSize="24"
+                FontWeight="Bold"
+                Text="HumaBlot 72FA 全自动免疫印迹仪" />
+            <TextBlock
+                FontSize="16"
+                Foreground="#666"
+                Text="Full-Automatic Immunoblotting Analyzer" />
+        </StackPanel>
+
+        <!--  登录表单  -->
+        <Border
+            Grid.Row="1"
+            Width="500"
+            Height="380"
+            Padding="30"
+            Background="White"
+            CornerRadius="8">
+            <StackPanel>
+                <TextBlock
+                    Margin="0,0,0,30"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    Text="欢迎登录" />
+
+                <TextBlock Margin="0,0,0,5" Text="用户名" />
+                <ComboBox
+                    Height="36"
+                    Margin="0,0,0,20"
+                    IsEditable="True"
+                    ItemsSource="{Binding Model.UserNameList}"
+                    SelectedIndex="0"
+                    Text="{Binding Model.UserName}" />
+
+                <TextBlock Margin="0,0,0,5" Text="密码" />
+                <PasswordBox Height="36" Margin="0,0,0,30">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PasswordChanged">
+                            <i:InvokeCommandAction Command="{Binding PasswordChangedCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=PasswordBox}}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </PasswordBox>
+
+                <Button
+                    Width="120"
+                    Height="40"
+                    Command="{Binding LoginCommand}"
+                    Content="立刻登录" />
+
+                <Button
+                    Margin="0,20,0,0"
+                    HorizontalAlignment="Right"
+                    Command="{Binding ExitCommand}"
+                    Content="退出" />
+            </StackPanel>
+        </Border>
+
+        <!--  底部版权信息  -->
+        <StackPanel Grid.Row="2" Margin="0,0,0,20">
+            <TextBlock
+                Margin="0,0,0,5"
+                HorizontalAlignment="Center"
+                Text="版本: V1.0.0.7 alpha @2024/5/7" />
+            <TextBlock HorizontalAlignment="Center" Text="北京胡曼智造科技有限责任公司" />
+        </StackPanel>
+    </Grid>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ClosingCommand}" PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <!--<Grid>
         <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="70,70,0,0" TextWrapping="Wrap" Text="{Binding Model.Txt}" VerticalAlignment="Top" Width="120"/>
         <Button Command="{Binding CopyCommand}" CommandParameter="{Binding ElementName=textBox1,Path=Text}" Content="Button" HorizontalAlignment="Left" Margin="230,70,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Command="{Binding OpenCommand}" Content="Button" HorizontalAlignment="Left" Margin="340,70,0,0" VerticalAlignment="Top" Width="75"/>
-    </Grid>
-
-    <!--<i:Interaction.Triggers>
-        <i:EventTrigger EventName="Closed">
-            <i:InvokeCommandAction Command="{Binding ClosedCommand}"></i:InvokeCommandAction>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>-->
+    </Grid>-->
 </Window>

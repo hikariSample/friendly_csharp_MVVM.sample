@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using MVVM.Sample.WPF.ViewModels;
 
 namespace MVVM.Sample.WPF
 {

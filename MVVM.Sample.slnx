@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="Fs.Service.Interfaces/Fs.Service.Interfaces.csproj" Id="41683eba-0a22-468b-8b57-c832828c2f30" />
   <Project Path="MVVM.Sample.WPF/MVVM.Sample.WPF.csproj" />
 </Solution>
