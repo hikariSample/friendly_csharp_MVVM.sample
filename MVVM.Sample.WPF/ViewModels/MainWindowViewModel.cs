@@ -76,7 +76,7 @@ namespace MVVM.Sample.WPF.ViewModels
         public ICommand ClosingCommand => new RelayCommand<object>((obj) =>
         {
             CancelEventArgs? e = obj as CancelEventArgs;
-            if (HandyControl.Controls.MessageBox.Show("确定要关闭软件？", "提示", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
+            if (HandyControl.Controls.MessageBox.Show("确定要关闭软件？", "提示", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.Cancel)
             {
                 e.Cancel = true;
             }
@@ -109,7 +109,7 @@ namespace MVVM.Sample.WPF.ViewModels
 
             if (string.IsNullOrWhiteSpace(Model.UserName) || string.IsNullOrWhiteSpace(Model.Password))
             {
-                HandyControl.Controls.MessageBox.Show("请输入用户名和密码");
+                HandyControl.Controls.MessageBox.Show("请输入用户名和密码", "提示", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -122,15 +122,15 @@ namespace MVVM.Sample.WPF.ViewModels
                     Model.UserNameList.Add(Model.UserName);
                 }
 
-                HandyControl.Controls.MessageBox.Show("登录成功");
+                HandyControl.Controls.MessageBox.Show("登录成功", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
                 // TODO: 跳转到主界面
                 var vm = Ioc.Default.GetService<Window1ViewModel>();
-                _dialogService.Value.Show(this, vm);
+                _dialogService.Value.Show(vm);
                 _dialogService.Value.Hide(this);
             }
             else
             {
-                HandyControl.Controls.MessageBox.Show("用户名或密码错误");
+                HandyControl.Controls.MessageBox.Show("用户名或密码错误", "提示", MessageBoxButton.OK, MessageBoxImage.Error);
                 Model.Password = "";
             }
         });

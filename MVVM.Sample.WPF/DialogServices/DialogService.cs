@@ -7,12 +7,15 @@ public class DialogService : IDialogService
     /// <summary>
     /// 显示非模态对话框
     /// </summary>
-    public void Show(object ownerViewModel, object viewModel)
+    public void Show(object viewModel)
     {
-        if (ownerViewModel == null) throw new ArgumentNullException(nameof(ownerViewModel));
         if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
-
-        var dialog = (Window)DialogLocator.Locate(viewModel);
+        var dialog = FindWindow(viewModel);
+        if (dialog == null)
+        {
+            dialog = (Window)DialogLocator.Locate(viewModel);
+        }
+        
         
         dialog.DataContext = viewModel;
         dialog.Show();
@@ -25,8 +28,11 @@ public class DialogService : IDialogService
         if (ownerViewModel == null) throw new ArgumentNullException(nameof(ownerViewModel));
         if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-        //Type dialogType = dialogTypeLocator.Locate(viewModel);
-        var dialog = (Window)DialogLocator.Locate(viewModel);
+        var dialog = FindWindow(viewModel);
+        if (dialog == null)
+        {
+            dialog = (Window)DialogLocator.Locate(viewModel);
+        }
 
         dialog.Owner = FindWindow(ownerViewModel);
 

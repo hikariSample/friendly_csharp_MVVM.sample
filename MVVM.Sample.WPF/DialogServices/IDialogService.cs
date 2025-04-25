@@ -2,7 +2,7 @@
 
 public interface IDialogService
 {
-    void Show(object ownerViewModel, object viewModel);
+    void Show(object viewModel);
     bool? ShowDialog(object ownerViewModel, object viewModel);
     void Close(object viewModel);
 
