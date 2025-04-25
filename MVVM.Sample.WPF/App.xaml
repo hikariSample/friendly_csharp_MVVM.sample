@@ -4,13 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="clr-namespace:MVVM.Sample.WPF.ViewModels"
+    xmlns:ds="clr-namespace:MVVM.Sample.WPF.DialogServices"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     mc:Ignorable="d">
     <Application.Resources>
-        <ResourceDictionary>
-            <!--  注册 ViewModelLocator 为全局静态资源  -->
-            <viewModels:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
-        </ResourceDictionary>
-
-    </Application.Resources>
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+             <hc:ThemeResources/>
+             <hc:Theme/>
+         </ResourceDictionary.MergedDictionaries>
+     </ResourceDictionary>
+  </Application.Resources>
 </Application>

@@ -6,17 +6,20 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:MVVM.Sample.WPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="clr-namespace:MVVM.Sample.WPF.ViewModels"
+    xmlns:viewModels="clr-namespace:MVVM.Sample.WPF.ViewModels"
+    xmlns:ds="clr-namespace:MVVM.Sample.WPF.DialogServices"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
     Title="HumaBlot 72FA"
     Width="900"
     Height="700"
     WindowStartupLocation="CenterScreen"
-    models:ViewModelLocator.AutoWireViewModel="True"
-    d:DataContext="{d:DesignInstance Type=models:MainWindowViewModel}"
+    ds:DialogLocator.IsRegistered="True"
+    d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
+    hc:Dialog.Token="123"
     Background="#F5F5F5"
     mc:Ignorable="d">
     <!--<Window.DataContext>
-        <Binding Path="[MainWindowViewModel]" Source="{StaticResource Locator}" />
+        <viewModels:MainWindowViewModel />
     </Window.DataContext>-->
     <Grid>
         <Grid.RowDefinitions>

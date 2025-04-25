@@ -1,18 +1,27 @@
-﻿using System.ComponentModel;
-using System.Windows;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using GalaSoft.MvvmLight.Threading;
-using MVVM.Sample.WPF.Models;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
-using Fs.Service.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using MVVM.Sample.WPF.DialogServices;
+using MVVM.Sample.WPF.Models;
 
 namespace MVVM.Sample.WPF.ViewModels
 {
     public partial class MainWindowViewModel
     {
-        private readonly Lazy<IWindow1Service> _mainWindowService;
+        private readonly Lazy<IDialogService> _dialogService;
         public Models.MainWindowModel Model { get; set; }
+        public MainWindowViewModel(Lazy<IDialogService> dialogService)
+        {
+
+            this.Model = new MainWindowModel();
+            _dialogService = dialogService;
+            this.Model.UserNameList = new List<string>();
+            this.Model.UserNameList.Add("admin");
+            this.Model.UserNameList.Add("operator");
+        }
         public ICommand CopyCommand
         {
             get
@@ -61,11 +70,13 @@ namespace MVVM.Sample.WPF.ViewModels
             }
         }
 
-        // 关闭窗口
+        /// <summary>
+        /// 关闭窗口
+        /// </summary>
         public ICommand ClosingCommand => new RelayCommand<object>((obj) =>
         {
             CancelEventArgs? e = obj as CancelEventArgs;
-            if (MessageBox.Show("确定要关闭软件？", "提示", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
+            if (HandyControl.Controls.MessageBox.Show("确定要关闭软件？", "提示", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
             {
                 e.Cancel = true;
             }
@@ -75,19 +86,13 @@ namespace MVVM.Sample.WPF.ViewModels
                 Environment.Exit(0);
             }
         });
-
+        /// <summary>
+        /// 退出
+        /// </summary>
         [RelayCommand]
         public void Exit()
         {
-            if (MessageBox.Show("确定要关闭软件？", "提示", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel)
-            {
-                _mainWindowService.Value.Show();
-            }
-            else
-            {
-                _mainWindowService.Value.Close();
-                Environment.Exit(0);
-            }
+            _dialogService.Value.Close(this);
         }
         public ICommand PasswordChangedCommand => new RelayCommand<object>((obj) =>
         {
@@ -96,17 +101,20 @@ namespace MVVM.Sample.WPF.ViewModels
                 Model.Password = passwordBox.Password;
             }
         });
-        // 登录
+        /// <summary>
+        /// 登录
+        /// </summary>
         public ICommand LoginCommand => new RelayCommand(() =>
         {
+
             if (string.IsNullOrWhiteSpace(Model.UserName) || string.IsNullOrWhiteSpace(Model.Password))
             {
-                MessageBox.Show("请输入用户名和密码");
+                HandyControl.Controls.MessageBox.Show("请输入用户名和密码");
                 return;
             }
 
             // TODO: 实现实际的登录验证逻辑
-            if (Model.Password == "admin123")
+            if (Model.Password == "123")
             {
                 // 如果是新用户名，添加到下拉列表中
                 if (!Model.UserNameList.Contains(Model.UserName))
@@ -114,23 +122,17 @@ namespace MVVM.Sample.WPF.ViewModels
                     Model.UserNameList.Add(Model.UserName);
                 }
 
-                MessageBox.Show("登录成功");
+                HandyControl.Controls.MessageBox.Show("登录成功");
                 // TODO: 跳转到主界面
+                var vm = Ioc.Default.GetService<Window1ViewModel>();
+                _dialogService.Value.Show(this, vm);
+                _dialogService.Value.Hide(this);
             }
             else
             {
-                MessageBox.Show("用户名或密码错误");
+                HandyControl.Controls.MessageBox.Show("用户名或密码错误");
                 Model.Password = "";
             }
         });
-        public MainWindowViewModel(Lazy<IWindow1Service> mainWindowService)
-        {
-            //_mainWindowService = mainWindowService;
-            _mainWindowService = mainWindowService;
-            this.Model = new MainWindowModel();
-            this.Model.UserNameList = new List<string>();
-            this.Model.UserNameList.Add("admin");
-            this.Model.UserNameList.Add("operator");
-        }
     }
 }

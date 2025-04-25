@@ -1,11 +1,9 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Threading;
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Fs.Service.Interfaces;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using GalaSoft.MvvmLight.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using MVVM.Sample.WPF.DialogServices;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace MVVM.Sample.WPF
 {
@@ -28,8 +26,9 @@ namespace MVVM.Sample.WPF
         /// <param name="e"></param>
         private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            //LogHelper.WriteError(e.Exception, "UI线程全局异常");
+            HandyControl.Controls.MessageBox.Show(e.Exception.Message, "UI线程全局异常", MessageBoxButton.OK, MessageBoxImage.Error);
             e.Handled = true;
+            DialogHelper.CloseLoading();
             //throw e.Exception;
         }
 
@@ -43,7 +42,8 @@ namespace MVVM.Sample.WPF
             var exception = e.ExceptionObject as Exception;
             if (exception != null)
             {
-                //LogHelper.WriteError(exception, "非UI线程全局异常");
+                HandyControl.Controls.MessageBox.Show(exception.Message, "非UI线程全局异常", MessageBoxButton.OK, MessageBoxImage.Error);
+                DialogHelper.CloseLoading();
                 //throw exception;
             }
         }
@@ -52,7 +52,7 @@ namespace MVVM.Sample.WPF
             var services = new ServiceCollection();
             
             // 注册对话框服务（单例模式，全局共用）
-            services.Scan(selector => selector.FromAssembliesOf(typeof(PopupService<>)).AddClasses().AsImplementedInterfaces().WithSingletonLifetime());
+            services.AddSingleton<IDialogService, DialogService>();
 
 
             // 注册主窗口和ViewModel
@@ -63,9 +63,11 @@ namespace MVVM.Sample.WPF
             var serviceProvider = services.BuildServiceProvider();
             // 初始化 DI 容器
             Ioc.Default.ConfigureServices(serviceProvider);
+            DialogLocator.SetServiceCollection(services);
 
-            var service = Ioc.Default.GetService<IMainWindowService>();
-            service.Show();
+            var service = Ioc.Default.GetService<MainWindow>();
+            
+            service?.Show();
             base.OnStartup(e);
         }
     }
