@@ -7,43 +7,46 @@ public class DialogService : IDialogService
     /// <summary>
     /// 显示非模态对话框
     /// </summary>
+    /// <param name="viewModel"></param>
+    /// <exception cref="ArgumentNullException">找不到对应的窗口</exception>
     public void Show(object viewModel)
     {
-        if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
-        var dialog = FindWindow(viewModel);
+        var dialog = FindWindow(viewModel) ?? (Window?)DialogLocator.Locate(viewModel);
+
         if (dialog == null)
         {
-            dialog = (Window)DialogLocator.Locate(viewModel);
+            throw new ArgumentNullException(nameof(Window));
         }
-        
-        
         dialog.DataContext = viewModel;
         dialog.Show();
     }
+
     /// <summary>
     /// 显示模态对话框
     /// </summary>
-    public bool? ShowDialog(object ownerViewModel, object viewModel)
+    /// <param name="ownerViewModel">可以是对象，也可以是类型</param>
+    /// <param name="viewModel">可以是对象，也可以是类型</param>
+    /// <exception cref="ArgumentNullException">找不到对应的窗口</exception>
+    /// <returns></returns>
+    public bool? ShowDialog(object? ownerViewModel, object viewModel)
     {
-        if (ownerViewModel == null) throw new ArgumentNullException(nameof(ownerViewModel));
-        if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+        var dialog = FindWindow(viewModel) ?? (Window?)DialogLocator.Locate(viewModel);
 
-        var dialog = FindWindow(viewModel);
         if (dialog == null)
         {
-            dialog = (Window)DialogLocator.Locate(viewModel);
+            throw new ArgumentNullException(nameof(Window));
         }
-
         dialog.Owner = FindWindow(ownerViewModel);
 
         dialog.DataContext = viewModel;
         return dialog.ShowDialog();
     }
-    
+    /// <summary>
+    /// 关闭指定ViewModel对应的窗口
+    /// </summary>
+    /// <param name="viewModel">可以是对象，也可以是类型</param>
     public void Close(object viewModel)
     {
-        if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
-
         var window = FindWindow(viewModel);
         window?.Close();
     }
@@ -55,8 +58,6 @@ public class DialogService : IDialogService
     /// <exception cref="ArgumentNullException"></exception>
     public void Hide(object viewModel)
     {
-        if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
-
         var window = FindWindow(viewModel);
         window?.Hide();
     }
@@ -66,8 +67,9 @@ public class DialogService : IDialogService
     /// </summary>
     /// <param name="viewModel">可以是对象，也可以是类型</param>
     /// <returns></returns>
-    private Window? FindWindow(object viewModel)
+    private Window? FindWindow(object? viewModel)
     {
+        if (viewModel == null) return null;
         // 遍历所有打开的窗口
         foreach (Window window in Application.Current.Windows)
         {

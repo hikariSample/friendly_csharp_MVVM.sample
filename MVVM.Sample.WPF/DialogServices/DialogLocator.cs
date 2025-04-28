@@ -44,15 +44,24 @@ public static class DialogLocator
     /// <summary>
     /// 根据窗口的datacontext获得窗口
     /// </summary>
-    /// <param name="viewModel"></param>
+    /// <param name="viewModel">可以是对象，也可以是类型</param>
     /// <returns></returns>
     public static FrameworkElement? Locate(object viewModel)
     {
+        Type viewType;
+        if (viewModel is Type type)
+        {
+            viewType = type;
+        }
+        else
+        {
+            viewType = viewModel.GetType();
+        }
         // 根据viewModel的类型，从dI容器中解析出窗口
         foreach (var descriptor in _services)
         {
             var service = Ioc.Default.GetService(descriptor.ServiceType);
-            if (service is FrameworkElement frameworkElement && service.GetType().FullName == descriptor.ServiceType.FullName && frameworkElement.DataContext.GetType() == viewModel.GetType())
+            if (service is FrameworkElement frameworkElement && service.GetType().FullName == descriptor.ServiceType.FullName && frameworkElement.DataContext.GetType() == viewType)
             {
                 return frameworkElement;
             }

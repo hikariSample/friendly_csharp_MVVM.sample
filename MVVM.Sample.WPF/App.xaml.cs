@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using System.Diagnostics;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using GalaSoft.MvvmLight.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using MVVM.Sample.WPF.DialogServices;
@@ -12,6 +13,8 @@ namespace MVVM.Sample.WPF
     /// </summary>
     public partial class App : Application
     {
+        private static Mutex? _mutex = null;
+
         public App()
         {
             Current.DispatcherUnhandledException += App_OnDispatcherUnhandledException;
@@ -49,6 +52,16 @@ namespace MVVM.Sample.WPF
         }
         protected override void OnStartup(StartupEventArgs e)
         {
+            string? appName = System.Reflection.Assembly.GetEntryAssembly()?.GetName().Name;
+            _mutex = new Mutex(true, appName, out bool createdNew);
+            if (!createdNew)
+            {
+                // 程序已运行，退出当前实例
+                Application.Current.Shutdown();
+                return;
+            }
+
+
             var services = new ServiceCollection();
             
             // 注册对话框服务（单例模式，全局共用）
@@ -69,6 +82,18 @@ namespace MVVM.Sample.WPF
             
             service?.Show();
             base.OnStartup(e);
+        }
+
+        /// <summary>
+        /// 重启程序
+        /// </summary>
+        public static void Restart()
+        {
+            _mutex?.ReleaseMutex(); // 释放锁
+            var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            location = location.Replace(".dll", ".exe");
+            Process.Start(location); // 启动新实例
+            Application.Current.Shutdown(); // 关闭当前实例
         }
     }
 }
