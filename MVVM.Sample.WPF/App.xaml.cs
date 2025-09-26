@@ -5,13 +5,16 @@ using Microsoft.Extensions.DependencyInjection;
 using MVVM.Sample.WPF.DialogServices;
 using System.Windows;
 using System.Windows.Threading;
+using Microsoft.EntityFrameworkCore;
+using MVVM.Sample.Application;
+using MVVM.Sample.Domain;
 
 namespace MVVM.Sample.WPF
 {
     /// <summary>
     /// App.xaml 的交互逻辑
     /// </summary>
-    public partial class App : Application
+    public partial class App : System.Windows.Application
     {
         private static Mutex? _mutex = null;
 
@@ -57,13 +60,16 @@ namespace MVVM.Sample.WPF
             if (!createdNew)
             {
                 // 程序已运行，退出当前实例
-                Application.Current.Shutdown();
+                System.Windows.Application.Current.Shutdown();
                 return;
             }
 
 
-            var services = new ServiceCollection();
-            
+            string connectionStrings = "";
+            ServiceCollection services = new ServiceCollection();
+            services.AddEntityFrameworkSqlServer().AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionStrings, b => b.EnableRetryOnFailure()), ServiceLifetime.Transient);
+            services.Scan(selector => selector.FromAssembliesOf(typeof(BaseService)).AddClasses().AsImplementedInterfaces().WithLifetime(ServiceLifetime.Transient));
+
             // 注册对话框服务（单例模式，全局共用）
             services.AddSingleton<IDialogService, DialogService>();
 
@@ -73,7 +79,7 @@ namespace MVVM.Sample.WPF
             services.Scan(selector => selector.FromAssembliesOf(typeof(App)).AddClasses(classes => classes.Where(c => c.Name.EndsWith("ViewModel"))).AsSelf().WithTransientLifetime());
 
             services.AddTransient(typeof(Lazy<>));
-            var serviceProvider = services.BuildServiceProvider();
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
             // 初始化 DI 容器
             Ioc.Default.ConfigureServices(serviceProvider);
             DialogLocator.SetServiceCollection(services);
@@ -93,7 +99,7 @@ namespace MVVM.Sample.WPF
             var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
             location = location.Replace(".dll", ".exe");
             Process.Start(location); // 启动新实例
-            Application.Current.Shutdown(); // 关闭当前实例
+            System.Windows.Application.Current.Shutdown(); // 关闭当前实例
         }
     }
 }

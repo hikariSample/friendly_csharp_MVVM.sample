@@ -71,7 +71,7 @@ public class DialogService : IDialogService
     {
         if (viewModel == null) return null;
         // 遍历所有打开的窗口
-        foreach (Window window in Application.Current.Windows)
+        foreach (Window window in System.Windows.Application.Current.Windows)
         {
             if (viewModel is Type type)
             {

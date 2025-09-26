@@ -1,3 +1,14 @@
 <Solution>
+  <Project Path="MVVM.Sample.Application.DTO/MVVM.Sample.Application.DTO.csproj" Id="8922e7da-c17b-4eb2-9488-b8890f1a9569" />
+  <Project Path="MVVM.Sample.Application.Interfaces/MVVM.Sample.Application.Interfaces.csproj" Id="8cc04bdb-0734-4a5e-a695-f27fedf60543" />
+  <Project Path="MVVM.Sample.Application/MVVM.Sample.Application.csproj" Id="b69a1d4a-b93c-471a-887b-90983bfbea86" />
+  <Project Path="MVVM.Sample.Domain.DomainEvents/MVVM.Sample.Domain.DomainEvents.csproj" Id="bfa50e3f-bc9c-402b-a3f8-615c718b7322" />
+  <Project Path="MVVM.Sample.Domain.DomainServices/MVVM.Sample.Domain.DomainServices.csproj" Id="ad444e2d-2d24-4636-acd7-354b724d448e" />
+  <Project Path="MVVM.Sample.Domain.Repository.Interfaces/MVVM.Sample.Domain.Repository.Interfaces.csproj" Id="b0b8c237-80f8-4f13-9afc-776ccd2f4bbc" />
+  <Project Path="MVVM.Sample.Domain.ValueObjects/MVVM.Sample.Domain.ValueObjects.csproj" Id="358a7719-cbd9-44c2-bab9-9a4ea030aa7c" />
+  <Project Path="MVVM.Sample.Domain/MVVM.Sample.Domain.csproj" Id="05d00f9b-a00b-487e-a62e-da51c6588366" />
+  <Project Path="MVVM.Sample.Infrastructure.Interfaces/MVVM.Sample.Infrastructure.Interfaces.csproj" Id="b40d77c7-2350-4f0d-8b54-0555006230bd" />
+  <Project Path="MVVM.Sample.Infrastructure/MVVM.Sample.Infrastructure.csproj" Id="c0d94469-e286-44fe-ac78-d3783cfbf79b" />
+  <Project Path="MVVM.Sample.Repository/MVVM.Sample.Repository.csproj" Id="363d235d-7499-417c-bd63-6ca93c146a13" />
   <Project Path="MVVM.Sample.WPF/MVVM.Sample.WPF.csproj" />
 </Solution>
